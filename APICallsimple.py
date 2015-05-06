@@ -49,11 +49,14 @@ neighborhoods = []
 categories = []
 review_count = []
 rating = []
+searchcategory = []
+searchneighborhood = []
 
 df = pd.DataFrame(data={'business_id' : business_id, 'name' : name, 
     'latitude' : latitude, 'longitude' : longitude, 'zipcode' : zipcode, 
     'city' : city, 'neighborhoods' : neighborhoods, 'categories' : categories, 
-    'review_count' : review_count, 'rating':rating})
+    'review_count' : review_count, 'rating':rating, 'searchcategory':searchcategory,
+    'searchneighborhood': searchneighborhood})
 
 df.to_csv('yelpAPIresults1.csv', index_label='index')
 
@@ -108,6 +111,7 @@ def search(term, location):
         # 'sort': SORT,
         # 'offset': offset,
         # 'radius_filter' : RADIUS_FILTER
+        'category_filter': term
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
@@ -161,9 +165,9 @@ for i in activities['Entertainment']:
                         df = pd.DataFrame(data={'business_id' : business_id, 'name' : name, 
                             'latitude' : latitude, 'longitude' : longitude, 'zipcode' : zipcode, 
                             'city' : city, 'neighborhoods' : neighborhoods, 'categories' : categories, 
-                            'review_count' : review_count, 'rating':rating})                        
+                            'review_count' : review_count, 'rating':rating, 'searchcategory': i, 'searchneighborhood': k})                        
                         
-                        with open('yelpAPIresults1.csv', 'a') as f:
+                        with open('yelpAPIresults_withcategoryfilter.csv', 'a') as f:
                             df.to_csv(f, header=False, encoding='utf-8')
                     except:
                         continue
